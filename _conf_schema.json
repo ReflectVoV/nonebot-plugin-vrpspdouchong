@@ -1,0 +1,39 @@
+{
+  "vr_gift_api_base": {
+    "type": "string",
+    "default": "https://vr.qianqiuzy.cn/gift",
+    "label": "VR礼物统计API基址",
+    "description": "VR礼物统计API基址（不含 /by_month）"
+  },
+  "psp_gift_api_base": {
+    "type": "string",
+    "default": "https://psp.qianqiuzy.cn/gift",
+    "label": "PSP礼物统计API基址",
+    "description": "PSP礼物统计API基址（不含 /by_month）"
+  },
+  "vr_douchong_title": {
+    "type": "string",
+    "default": "VR斗虫",
+    "label": "VR斗虫图片标题"
+  },
+  "psp_douchong_title": {
+    "type": "string",
+    "default": "PSP斗虫",
+    "label": "PSP斗虫图片标题"
+  },
+  "vr_live_title": {
+    "type": "string",
+    "default": "VR开播",
+    "label": "VR开播图片标题"
+  },
+  "psp_live_title": {
+    "type": "string",
+    "default": "PSP开播",
+    "label": "PSP开播图片标题"
+  },
+  "vr_http_timeout": {
+    "type": "float",
+    "default": 5,
+    "label": "HTTP请求超时(秒)"
+  }
+}

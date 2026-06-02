@@ -1,0 +1,6 @@
+name: astrbot_plugin_vrpspdouchong
+display_name: VR/PSP斗虫
+desc: "VR/PSP礼物统计与斗虫插件，支持月度榜单、开播列表、直播场次、SC记录、粉丝数、流水查询"
+version: 1.0.0
+author: QianQiuZy (NoneBot original) / migrated to AstrBot
+repo: https://github.com/QianQiuZy/nonebot-plugin-vrpspdouchong

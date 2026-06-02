@@ -121,7 +121,7 @@ def _split_runs_by_emoji(s: str) -> Iterable[Tuple[str, bool]]:
         ch = s[i]
         is_e = _is_emoji_char(ch)
 
-        # VS16/ZWJ 视为“附着符号”，尽量并入前一个 run
+        # VS16/ZWJ 视为"附着符号"，尽量并入前一个 run
         if ord(ch) in (0xFE0F, 0x200D):
             if buf:
                 buf.append(ch)
@@ -151,7 +151,7 @@ def _split_runs_by_emoji(s: str) -> Iterable[Tuple[str, bool]]:
 
 def _split_graphemes(s: str) -> List[str]:
     """
-    将字符串按“字素簇”切分（更稳地处理组合符号/emoji 序列）。
+    将字符串按"字素簇"切分（更稳地处理组合符号/emoji 序列）。
     若 regex 不可用则退化为逐字符。
     """
     if not s:
@@ -235,7 +235,6 @@ def _resolve_text_fallback_font_paths(
 class PicGenerator:
     """
     基于 Pillow 的绘图器（裁剪版）
-    - 去掉外部 config 依赖
     - 字体由 resource_dir + 字体文件名确定
     """
 
@@ -284,10 +283,10 @@ class PicGenerator:
         self.__chapter_font = ImageFont.truetype(str(bold_path), 50)
         self.__section_font = ImageFont.truetype(str(bold_path), 40)
 
-        # 你原有的 tip/text 字体保留，但 draw_text 使用回退链（不再只用一个 normal）
+        # tip/text 字体保留
         self.__tip_font = ImageFont.truetype(str(normal_path), 25)
 
-        # ---------- 方案 A：构建“非 emoji”字体回退链（size=30） ----------
+        # ---------- 方案 A：构建"非 emoji"字体回退链（size=30） ----------
         self.__text_fonts: List[ImageFont.FreeTypeFont] = []
         self.__text_cmaps: List[Dict[int, str]] = []
 
@@ -493,7 +492,7 @@ class PicGenerator:
         text_len = self._measure_with_fallback(text_joined)
         x = self.width - int(margin_right) - text_len
 
-        # 防覆盖点：按你的原逻辑保留 margin
+        # 防覆盖点
         limit_x = int(xy_limit[0]) - self.__auto_size_margin
         limit_y = int(xy_limit[1]) + self.__auto_size_margin
         y = max(self.y, limit_y)
