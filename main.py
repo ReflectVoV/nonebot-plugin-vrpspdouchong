@@ -20,6 +20,7 @@ from uuid import uuid4
 import httpx
 from astrbot.api import logger, AstrBotConfig
 from astrbot.api.event import filter, AstrMessageEvent
+from astrbot.api.message_components import Nodes, Node, Image, Plain
 from astrbot.api.star import Context, Star, register
 
 from .toolkit import PicGenerator, Color, timestamp_format
@@ -1285,6 +1286,8 @@ class VRPSPDouchong(Star):
         total_pages = len(pages)
         query_source_text = build_query_source_text(event)
 
+        # Collect all page images as temp files
+        node_list = []
         for page_no, (global_start_idx, page_rows) in enumerate(pages, start=1):
             b64 = self._render_sc_page(
                 anchor_name=anchor_name, room_id=room_id, month_code=month_code,
@@ -1293,7 +1296,16 @@ class VRPSPDouchong(Star):
                 global_start_idx=global_start_idx,
                 query_source_text=query_source_text,
             )
-            yield self._send_image(event, b64)
+            img_bytes = base64.b64decode(b64)
+            with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
+                f.write(img_bytes)
+                tmp_path = f.name
+            node_list.append(Node(
+                uin=event.get_self_id() or 10000,
+                name=f"SC {page_no}/{total_pages}",
+                content=[Image.fromFileSystem(tmp_path)]
+            ))
+        yield event.chain_result([Nodes(nodes=node_list)])
 
     # ===================== Query: income =====================
     async def _handle_query_financial(self, event: AstrMessageEvent, arg: str):
